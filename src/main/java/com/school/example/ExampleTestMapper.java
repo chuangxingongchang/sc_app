@@ -1,12 +1,13 @@
-package com.school.service;
+package com.school.example;
 
-import com.school.pojo.User;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
-public interface UserMapper {
+@Repository
+public interface ExampleTestMapper {
 
     /*注解方式的话直接在方法上写上对应的sql语句就可以了*/
     @Select("select * from user where id = #{id}")
@@ -14,16 +15,16 @@ public interface UserMapper {
     @Results(id = "user",value = {
             @Result(property = "username",column = "name")
     })
-    User findById(long id);
+    Object findById(long id);
 
     /*获取回传自增id*/
     /*id会自动存入user中*/
     @Insert("insert into user(name,passwd) values (#{username},#{passwd})")
     @Options(useGeneratedKeys = true,keyProperty = "id")
-    int inertUser(User user);
+    int inertUser(Object user);
 
     @Select("select * from user")
     /*调用之前的Results*/
     @ResultMap("user")
-    List<User> listUser();
+    List<Object> listUser();
 }
